@@ -7,7 +7,8 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "node ./__tests__/cli.test.js"
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
   },
   "dependencies": {
     "import-local": "^3.1.0",

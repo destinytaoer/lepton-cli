@@ -5,7 +5,13 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^10.0.1",
     "lerna": "^6.1.0",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.1",
+    "rollup": "^3.7.5",
+    "typescript": "^4.9.4"
   }
 }
