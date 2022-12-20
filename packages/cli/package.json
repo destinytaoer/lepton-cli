@@ -1,14 +1,20 @@
 {
   "name": "@lepton-cli/cli",
   "version": "0.0.0",
-  "description": "> TODO: description",
-  "author": "destiny <1848765519@qq.com>",
-  "homepage": "https://github.com/destinytaoer/lepton-cli#readme",
-  "license": "ISC",
-  "main": "lib/cli.js",
+  "description": "lepton 脚手架工具",
+  "bin": {
+    "lepton": "./bin/index.js"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node ./__tests__/cli.test.js"
+  },
+  "dependencies": {
+    "import-local": "^3.1.0",
+    "npmlog": "^7.0.1"
+  },
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "lib"
@@ -17,9 +23,9 @@
     "type": "git",
     "url": "git+https://github.com/destinytaoer/lepton-cli.git"
   },
-  "scripts": {
-    "test": "node ./__tests__/cli.test.js"
-  },
+  "license": "ISC",
+  "author": "destiny <1848765519@qq.com>",
+  "homepage": "https://github.com/destinytaoer/lepton-cli#readme",
   "bugs": {
     "url": "https://github.com/destinytaoer/lepton-cli/issues"
   }
