@@ -1,5 +1,6 @@
-import pkg from '../package.json'
+import pkg from '../package.json';
+import { log } from '@lepton-cli/utils';
 
 export function logVersion() {
-  console.log(pkg.version)
+  log.info('cli', pkg.version);
 }

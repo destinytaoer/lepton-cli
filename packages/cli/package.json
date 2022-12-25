@@ -11,8 +11,8 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "import-local": "^3.1.0",
-    "npmlog": "^7.0.1"
+    "@lepton-cli/utils": "^0.0.0",
+    "import-local": "^3.1.0"
   },
   "directories": {
     "lib": "lib"
