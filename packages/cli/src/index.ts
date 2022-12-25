@@ -1,7 +1,13 @@
-import { logVersion } from './utils';
+import { log } from '@lepton-cli/utils';
+import { checkNodeVersion, logVersion } from './utils';
 
 function cli() {
-  logVersion();
+  try {
+    logVersion();
+    checkNodeVersion();
+  } catch (e: any) {
+    log.error('', e.message);
+  }
 }
 
 export default cli;

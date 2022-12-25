@@ -11,6 +11,7 @@
     "@rollup/plugin-typescript": "^10.0.1",
     "@types/node": "^18.11.17",
     "@types/npmlog": "^4.1.4",
+    "@types/semver": "^7.3.13",
     "lerna": "^6.1.0",
     "prettier": "^2.8.1",
     "rollup": "^3.7.5",
