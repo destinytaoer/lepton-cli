@@ -1,5 +1,7 @@
+import { logVersion } from './utils';
+
 function cli() {
-  console.log('enter cli');
+  logVersion();
 }
 
 export default cli;
