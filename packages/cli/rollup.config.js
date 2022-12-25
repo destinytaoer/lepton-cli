@@ -9,5 +9,6 @@ module.exports = {
     file: 'lib/index.js',
     format: 'cjs',
   },
+  external: [/node_modules/],
   plugins: [nodeResolve(), commonjs(), typescript(), json()],
 };
