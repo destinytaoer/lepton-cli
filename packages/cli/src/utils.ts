@@ -1,4 +1,5 @@
 import semver from 'semver'
+import rootCheck from 'root-check'
 import chalk from 'chalk'
 import { log } from '@lepton-cli/utils';
 import pkg from '../package.json';
@@ -14,4 +15,9 @@ export function checkNodeVersion() {
   if (!semver.gte(currentVersion, lowestVersion)) {
     throw new Error(chalk.red(`使用 lepton cli 需要安装 ${lowestVersion} 以上版本的 Node.js`))
   }
+}
+
+export function checkRootUser() {
+  // 检查是否 root 账号, 如果是, 会自动降级为普通用户
+  rootCheck()
 }

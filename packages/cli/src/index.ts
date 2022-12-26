@@ -1,10 +1,11 @@
 import { log } from '@lepton-cli/utils';
-import { checkNodeVersion, logVersion } from './utils';
+import { checkNodeVersion, checkRootUser, logVersion } from './utils';
 
 function cli() {
   try {
     logVersion();
     checkNodeVersion();
+    checkRootUser();
   } catch (e: any) {
     log.error('', e.message);
   }

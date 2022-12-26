@@ -15,6 +15,7 @@
     "@lepton-cli/utils": "^0.0.0",
     "chalk": "^5.2.0",
     "import-local": "^3.1.0",
+    "root-check": "^2.0.0",
     "semver": "^7.3.8"
   },
   "directories": {
