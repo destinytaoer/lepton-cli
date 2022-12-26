@@ -1,13 +1,13 @@
-const nodeResolve = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const typescript = require('@rollup/plugin-typescript');
-const json = require('@rollup/plugin-json');
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 
-module.exports = {
+export default {
   input: 'src/index.ts',
   output: {
     file: 'lib/index.js',
-    format: 'cjs',
+    format: 'es',
   },
   external: [/node_modules/],
   plugins: [nodeResolve(), commonjs(), typescript(), json()],

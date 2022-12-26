@@ -1,9 +1,13 @@
 #! /usr/bin/env node
 
-const importLocal = require('import-local');
+import importLocal from 'import-local';
+import { fileURLToPath } from 'url';
+import log from 'npmlog';
+import cli from '../lib/index.js';
 
+const __filename = fileURLToPath(import.meta.url);
 if (importLocal(__filename)) {
-  require('npmlog').info('cli', '正在使用本地版本');
+  log.info('cli', '正在使用本地版本');
 } else {
-  require('../lib')();
+  cli();
 }
