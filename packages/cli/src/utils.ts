@@ -6,6 +6,7 @@ import semver from 'semver';
 import rootCheck from 'root-check';
 import minimist from 'minimist';
 import dotenv from 'dotenv';
+import { getNpmSemverVersion } from '@lepton-cli/npm';
 
 import chalk from 'chalk';
 import { log } from '@lepton-cli/utils';
@@ -74,4 +75,17 @@ export function createDefaultConfig() {
   }
 
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
+}
+
+export async function checkGlobalUpdate() {
+  // 获取当前版本和包名
+  const currentVersion = pkg.version;
+  const name = pkg.name;
+  // 从 npm api 获取所有版本
+  const latestVersion = await getNpmSemverVersion(currentVersion, name);
+  if (!latestVersion) return;
+  // 提取所有大于当前版本的版本号
+  log.warn('更新提示', chalk.yellow(`当前版本: ${currentVersion}, 最新版本: ${latestVersion}
+更新命令: npm install -g ${name}`));
+  // 获取最新版本号, 提示用户更新
 }
