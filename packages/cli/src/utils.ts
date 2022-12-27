@@ -3,6 +3,7 @@ import os from 'os';
 import semver from 'semver';
 import rootCheck from 'root-check';
 import chalk from 'chalk';
+import minimist from 'minimist';
 import { log } from '@lepton-cli/utils';
 import pkg from '../package.json';
 import { LOWEST_NODE_VERSION } from './const';
@@ -30,4 +31,22 @@ export function checkUserHome() {
   if (!homedir || !fs.existsSync(homedir)) {
     throw new Error(chalk.red('当前登录用户主目录不存在'));
   }
+}
+
+// 检查入参
+export function checkInputArgs() {
+  console.log('checkInputArgs');
+  const args = minimist(process.argv.slice(2));
+  console.log(args);
+  checkArgs(args);
+  log.verbose('test', 'aa');
+}
+
+export function checkArgs(args: Record<string, any>) {
+  if (args.debug) {
+    process.env.LOG_LEVEL = 'verbose';
+  } else {
+    process.env.LOG_LEVEL = 'info';
+  }
+  log.level = process.env.LOG_LEVEL;
 }

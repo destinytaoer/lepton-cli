@@ -1,5 +1,5 @@
 import { log } from '@lepton-cli/utils';
-import { checkNodeVersion, checkRootUser, checkUserHome, logVersion } from './utils';
+import { checkInputArgs, checkNodeVersion, checkRootUser, checkUserHome, logVersion } from './utils';
 
 function cli() {
   try {
@@ -7,6 +7,7 @@ function cli() {
     checkNodeVersion();
     checkRootUser();
     checkUserHome();
+    checkInputArgs();
   } catch (e: any) {
     log.error('', e.message);
   }
