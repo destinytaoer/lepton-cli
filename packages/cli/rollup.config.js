@@ -9,6 +9,6 @@ export default {
     file: 'lib/index.js',
     format: 'es',
   },
-  external: [/node_modules/],
+  external: [/node_modules/, /@lepton-cli/],
   plugins: [nodeResolve(), commonjs(), typescript(), json()],
 };
