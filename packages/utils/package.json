@@ -1,6 +1,6 @@
 {
   "name": "@lepton-cli/utils",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "utils 工具函数",
   "type": "module",
   "main": "lib/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@lepton-cli/cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "lepton 脚手架工具",
   "bin": {
     "lepton": "./bin/index.js"
@@ -12,7 +12,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "@lepton-cli/utils": "^0.0.0",
+    "@lepton-cli/utils": "^0.1.0",
     "chalk": "^5.2.0",
     "dotenv": "^16.0.3",
     "import-local": "^3.1.0",
