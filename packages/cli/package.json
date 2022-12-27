@@ -14,6 +14,7 @@
   "dependencies": {
     "@lepton-cli/utils": "^0.0.0",
     "chalk": "^5.2.0",
+    "dotenv": "^16.0.3",
     "import-local": "^3.1.0",
     "minimist": "^1.2.7",
     "root-check": "^2.0.0",

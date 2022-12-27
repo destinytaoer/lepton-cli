@@ -1,12 +1,16 @@
 import fs from 'fs';
 import os from 'os';
+import path from 'path';
+
 import semver from 'semver';
 import rootCheck from 'root-check';
-import chalk from 'chalk';
 import minimist from 'minimist';
+import dotenv from 'dotenv';
+
+import chalk from 'chalk';
 import { log } from '@lepton-cli/utils';
 import pkg from '../package.json';
-import { LOWEST_NODE_VERSION } from './const';
+import { DEFAULT_CLI_HOME, LOWEST_NODE_VERSION } from './const';
 
 export function logVersion() {
   log.info('cli', pkg.version);
@@ -35,11 +39,8 @@ export function checkUserHome() {
 
 // 检查入参
 export function checkInputArgs() {
-  console.log('checkInputArgs');
   const args = minimist(process.argv.slice(2));
-  console.log(args);
   checkArgs(args);
-  log.verbose('test', 'aa');
 }
 
 export function checkArgs(args: Record<string, any>) {
@@ -49,4 +50,28 @@ export function checkArgs(args: Record<string, any>) {
     process.env.LOG_LEVEL = 'info';
   }
   log.level = process.env.LOG_LEVEL;
+  log.verbose('debug', chalk.red('开启 debug 模式'));
+}
+
+export function checkEnv() {
+  const homedir = os.homedir();
+  const dotenvPath = path.resolve(homedir, '.env');
+  if (fs.existsSync(dotenvPath)) {
+    dotenv.config({ path: dotenvPath });
+  }
+  createDefaultConfig();
+  log.verbose('env', JSON.stringify(process.env));
+}
+
+export function createDefaultConfig() {
+  const cliConfig: Record<string, any> = {
+    home: os.homedir(),
+  };
+  if (process.env.CLI_HOME) {
+    cliConfig.cliHome = path.join(cliConfig.home, process.env.CLI_HOME);
+  } else {
+    cliConfig.cliHome = path.join(cliConfig.home, DEFAULT_CLI_HOME);
+  }
+
+  process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }
