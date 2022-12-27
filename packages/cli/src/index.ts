@@ -8,7 +8,7 @@ function cli() {
     checkRootUser();
     checkUserHome();
     checkInputArgs();
-    checkEnv()
+    checkEnv();
   } catch (e: any) {
     log.error('', e.message);
   }
