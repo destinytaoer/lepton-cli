@@ -154,6 +154,10 @@ function registerCommand() {
             log.info('command', chalk.red(`可用命令: ${availableCommands.join(', ')}`));
         }
     });
+    // 只输入命令时, 输出帮助文档
+    if (process.argv.length < 3) {
+        program.outputHelp();
+    }
     program.parse(process.argv);
 }
 

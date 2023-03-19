@@ -34,5 +34,10 @@ export function registerCommand() {
     }
   });
 
+  // 只输入命令时, 输出帮助文档
+  if (process.argv.length < 3) {
+    program.outputHelp();
+  }
+
   program.parse(process.argv);
 }
