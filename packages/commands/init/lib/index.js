@@ -1,3 +1,5 @@
-export function init(projectName, cmdObj) {
-  console.log('init', projectName, cmdObj.force)
+function init(projectName, cmd) {
+    console.log('init', projectName, cmd.force);
 }
+
+export { init };

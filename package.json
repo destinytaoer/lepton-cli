@@ -2,7 +2,8 @@
   "name": "lepton-cli",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/commands/*"
   ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",

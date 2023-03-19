@@ -1,6 +1,7 @@
 import * as commander from 'commander';
 import pkg from '../package.json';
 import { log } from '@lepton-cli/utils';
+import { init } from '@lepton-cli/init';
 import chalk from 'chalk';
 
 export const program = new commander.Command();
@@ -11,6 +12,13 @@ export function registerCommand() {
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d --debug', '是否开启调试模式', false);
+
+  program
+    .command('init [projectName]')
+    .option('-f --force', '是否强制初始化项目')
+    .action((projectName, cmd) => {
+      init(projectName, cmd);
+    });
 
   // debug 模式
   program.on('option:debug', function(...args) {

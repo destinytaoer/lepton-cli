@@ -1,8 +1,14 @@
 {
   "name": "@lepton-cli/init",
   "version": "0.1.0",
-  "description": "> TODO: description",
+  "description": "init 命令",
   "main": "lib/index.js",
+  "type": "module",
+  "types": "lib/typings/index.d.ts",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -15,9 +21,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/destinytaoer/lepton-cli.git"
-  },
-  "scripts": {
-    "test": "node ./__tests__/commands.test.js"
   },
   "bugs": {
     "url": "https://github.com/destinytaoer/lepton-cli/issues"

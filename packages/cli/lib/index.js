@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import { getNpmSemverVersion } from '@lepton-cli/npm';
 import chalk from 'chalk';
 import * as commander from 'commander';
+import { init } from '@lepton-cli/init';
 
 var name = "@lepton-cli/cli";
 var version = "0.1.0";
@@ -25,6 +26,7 @@ var scripts = {
 var dependencies = {
 	"@lepton-cli/npm": "^0.1.0",
 	"@lepton-cli/utils": "^0.1.0",
+	"@lepton-cli/init": "^0.1.0",
 	chalk: "^5.2.0",
 	commander: "^10.0.0",
 	dotenv: "^16.0.3",
@@ -134,6 +136,12 @@ function registerCommand() {
         .usage('<command> [options]')
         .version(pkg.version)
         .option('-d --debug', '是否开启调试模式', false);
+    program
+        .command('init [projectName]')
+        .option('-f --force', '是否强制初始化项目')
+        .action((projectName, cmd) => {
+        init(projectName, cmd);
+    });
     // debug 模式
     program.on('option:debug', function (...args) {
         const options = program.opts();
