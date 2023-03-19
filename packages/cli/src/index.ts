@@ -8,6 +8,7 @@ import {
   checkUserHome,
   logVersion,
 } from './utils';
+import { registerCommand } from './registerCommand';
 
 function cli() {
   try {
@@ -18,6 +19,7 @@ function cli() {
     checkInputArgs();
     checkEnv();
     checkGlobalUpdate();
+    registerCommand();
   } catch (e: any) {
     log.error('', e.message);
   }

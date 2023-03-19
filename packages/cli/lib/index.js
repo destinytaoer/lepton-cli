@@ -8,6 +8,7 @@ import minimist from 'minimist';
 import dotenv from 'dotenv';
 import { getNpmSemverVersion } from '@lepton-cli/npm';
 import chalk from 'chalk';
+import * as commander from 'commander';
 
 var name = "@lepton-cli/cli";
 var version = "0.1.0";
@@ -25,6 +26,7 @@ var dependencies = {
 	"@lepton-cli/npm": "^0.1.0",
 	"@lepton-cli/utils": "^0.1.0",
 	chalk: "^5.2.0",
+	commander: "^10.0.0",
 	dotenv: "^16.0.3",
 	"import-local": "^3.1.0",
 	minimist: "^1.2.7",
@@ -140,6 +142,15 @@ async function checkGlobalUpdate() {
     // 获取最新版本号, 提示用户更新
 }
 
+const program = new commander.Command();
+function registerCommand() {
+    program
+        .name(Object.keys(pkg.bin)[0])
+        .usage('<command> [options]')
+        .version(pkg.version);
+    program.parse(process.argv);
+}
+
 function cli() {
     try {
         logVersion();
@@ -149,6 +160,7 @@ function cli() {
         checkInputArgs();
         checkEnv();
         checkGlobalUpdate();
+        registerCommand();
     }
     catch (e) {
         log.error('', e.message);
