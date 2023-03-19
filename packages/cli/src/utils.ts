@@ -38,22 +38,6 @@ export function checkUserHome() {
   }
 }
 
-// 检查入参
-export function checkInputArgs() {
-  const args = minimist(process.argv.slice(2));
-  checkArgs(args);
-}
-
-export function checkArgs(args: Record<string, any>) {
-  if (args.debug) {
-    process.env.LOG_LEVEL = 'verbose';
-  } else {
-    process.env.LOG_LEVEL = 'info';
-  }
-  log.level = process.env.LOG_LEVEL;
-  log.verbose('debug', chalk.red('开启 debug 模式'));
-}
-
 export function checkEnv() {
   const homedir = os.homedir();
   const dotenvPath = path.resolve(homedir, '.env');

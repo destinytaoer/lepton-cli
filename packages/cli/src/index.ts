@@ -2,7 +2,6 @@ import { log } from '@lepton-cli/utils';
 import {
   checkEnv,
   checkGlobalUpdate,
-  checkInputArgs,
   checkNodeVersion,
   checkRootUser,
   checkUserHome,
@@ -10,19 +9,22 @@ import {
 } from './utils';
 import { registerCommand } from './registerCommand';
 
-function cli() {
+async function cli() {
   try {
-    logVersion();
-    checkNodeVersion();
-    checkRootUser();
-    checkUserHome();
-    // checkInputArgs();
-    checkEnv();
-    checkGlobalUpdate();
+    await prepare();
     registerCommand();
   } catch (e: any) {
     log.error('', e.message);
   }
+}
+
+async function prepare() {
+  logVersion();
+  checkNodeVersion();
+  checkRootUser();
+  checkUserHome();
+  checkEnv();
+  await checkGlobalUpdate();
 }
 
 export default cli;

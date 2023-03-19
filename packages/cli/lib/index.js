@@ -4,7 +4,6 @@ import os from 'os';
 import path from 'path';
 import semver from 'semver';
 import rootCheck from 'root-check';
-import 'minimist';
 import dotenv from 'dotenv';
 import { getNpmSemverVersion } from '@lepton-cli/npm';
 import chalk from 'chalk';
@@ -173,20 +172,22 @@ function registerCommand() {
     program.parse(process.argv);
 }
 
-function cli() {
+async function cli() {
     try {
-        logVersion();
-        checkNodeVersion();
-        checkRootUser();
-        checkUserHome();
-        // checkInputArgs();
-        checkEnv();
-        checkGlobalUpdate();
+        await prepare();
         registerCommand();
     }
     catch (e) {
         log.error('', e.message);
     }
+}
+async function prepare() {
+    logVersion();
+    checkNodeVersion();
+    checkRootUser();
+    checkUserHome();
+    checkEnv();
+    await checkGlobalUpdate();
 }
 
 export { cli as default };
