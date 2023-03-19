@@ -16,7 +16,7 @@ function cli() {
     checkNodeVersion();
     checkRootUser();
     checkUserHome();
-    checkInputArgs();
+    // checkInputArgs();
     checkEnv();
     checkGlobalUpdate();
     registerCommand();

@@ -4,7 +4,7 @@ import os from 'os';
 import path from 'path';
 import semver from 'semver';
 import rootCheck from 'root-check';
-import minimist from 'minimist';
+import 'minimist';
 import dotenv from 'dotenv';
 import { getNpmSemverVersion } from '@lepton-cli/npm';
 import chalk from 'chalk';
@@ -92,21 +92,6 @@ function checkUserHome() {
         throw new Error(chalk.red('当前登录用户主目录不存在'));
     }
 }
-// 检查入参
-function checkInputArgs() {
-    const args = minimist(process.argv.slice(2));
-    checkArgs(args);
-}
-function checkArgs(args) {
-    if (args.debug) {
-        process.env.LOG_LEVEL = 'verbose';
-    }
-    else {
-        process.env.LOG_LEVEL = 'info';
-    }
-    log.level = process.env.LOG_LEVEL;
-    log.verbose('debug', chalk.red('开启 debug 模式'));
-}
 function checkEnv() {
     const homedir = os.homedir();
     const dotenvPath = path.resolve(homedir, '.env');
@@ -147,7 +132,19 @@ function registerCommand() {
     program
         .name(Object.keys(pkg.bin)[0])
         .usage('<command> [options]')
-        .version(pkg.version);
+        .version(pkg.version)
+        .option('-d --debug', '是否开启调试模式', false);
+    program.on('option:debug', function (...args) {
+        const options = program.opts();
+        if (options.debug) {
+            process.env.LOG_LEVEL = 'verbose';
+        }
+        else {
+            process.env.LOG_LEVEL = 'info';
+        }
+        log.level = process.env.LOG_LEVEL;
+        log.verbose('debug', chalk.red('开启 debug 模式'));
+    });
     program.parse(process.argv);
 }
 
@@ -157,7 +154,7 @@ function cli() {
         checkNodeVersion();
         checkRootUser();
         checkUserHome();
-        checkInputArgs();
+        // checkInputArgs();
         checkEnv();
         checkGlobalUpdate();
         registerCommand();
