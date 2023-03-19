@@ -1,11 +1,8 @@
 {
-  "name": "@lepton-cli/commands",
+  "name": "@lepton-cli/init",
   "version": "0.1.0",
   "description": "> TODO: description",
-  "author": "destiny <1848765519@qq.com>",
-  "homepage": "https://github.com/destinytaoer/lepton-cli#readme",
-  "license": "ISC",
-  "main": "lib/commands.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -13,6 +10,8 @@
   "files": [
     "lib"
   ],
+  "author": "destiny <1848765519@qq.com>",
+  "homepage": "https://github.com/destinytaoer/lepton-cli#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/destinytaoer/lepton-cli.git"
@@ -22,5 +21,6 @@
   },
   "bugs": {
     "url": "https://github.com/destinytaoer/lepton-cli/issues"
-  }
+  },
+  "license": "ISC"
 }
