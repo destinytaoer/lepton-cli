@@ -2,6 +2,7 @@ import * as commander from 'commander';
 import pkg from '../package.json';
 import { log } from '@lepton-cli/utils';
 import { init } from '@lepton-cli/init';
+import { exec } from '@lepton-cli/core';
 import chalk from 'chalk';
 
 export const program = new commander.Command();
@@ -17,7 +18,7 @@ export function registerCommand() {
   program
     .command('init [projectName]')
     .option('-f --force', '是否强制初始化项目')
-    .action(init);
+    .action(exec);
 
   // debug 模式
   program.on('option:debug', function(...args) {
@@ -34,9 +35,9 @@ export function registerCommand() {
 
   // 指定 targetPath
   // 因为 targetPath 是 program 的选项, 定义的命令或者子命令中是不能直接拿到的, 所以统一放到环境变量中, 方便获取
-  program.on("option:targetPath", function(){
-    process.env.CLI_TARGET_PATH = program.opts().targetPath
-  })
+  program.on('option:targetPath', function() {
+    process.env.CLI_TARGET_PATH = program.opts().targetPath;
+  });
 
   // 所有未知命令的处理
   program.on('command:*', function(args) {
