@@ -43,8 +43,9 @@ export async function exec() {
     version: packageVersion,
   });
 
-  if (pkg.exist()) {
+  if (await pkg.exist()) {
     // 更新 package
+    console.log('update');
   } else {
     await pkg.install();
   }

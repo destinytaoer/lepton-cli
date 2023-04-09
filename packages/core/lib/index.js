@@ -1,8 +1,9 @@
 import { resolve } from 'path';
 import { createRequire } from 'module';
+import { pathExistsSync } from 'path-exists';
 import { packageDirectorySync } from 'pkg-dir';
 import { isObject, formatPath, log } from '@lepton-cli/utils';
-import { npmInstall, getDefaultRegistry } from '@lepton-cli/npm';
+import { getNpmLatestVersion, npmInstall, getDefaultRegistry } from '@lepton-cli/npm';
 
 const require$1 = createRequire(import.meta.url);
 class Package {
@@ -23,12 +24,28 @@ class Package {
         this.name = options.name;
         this.version = options.version;
     }
+    async prepare() {
+        if (this.version === 'latest') {
+            this.version = await getNpmLatestVersion(this.name) ?? '';
+        }
+    }
+    get cacheFilePath() {
+        return resolve(this.storePath, this.name);
+    }
     // 判断当前 package 是否存在
-    exist() {
-        return false;
+    async exist() {
+        if (this.storePath) {
+            await this.prepare();
+            console.log(this.cacheFilePath);
+            return pathExistsSync(this.cacheFilePath);
+        }
+        else {
+            return pathExistsSync(this.targetPath);
+        }
     }
     // 安装 package
-    install() {
+    async install() {
+        await this.prepare();
         return npmInstall({
             root: this.targetPath,
             storeDir: this.storePath,
@@ -108,7 +125,10 @@ async function exec() {
         name: packageName,
         version: packageVersion,
     });
-    if (pkg.exist()) ;
+    if (await pkg.exist()) {
+        // 更新 package
+        console.log('update');
+    }
     else {
         await pkg.install();
     }

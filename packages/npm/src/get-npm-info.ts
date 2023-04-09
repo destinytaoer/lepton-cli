@@ -40,3 +40,11 @@ export async function getNpmSemverVersion(baseVersion: string, pkgName: string, 
 export function getDefaultRegistry(isOriginal = false) {
   return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
 }
+
+export async function getNpmLatestVersion(pkgName: string, registry?: string) {
+  let versions = await getNpmVersions(pkgName, registry)
+  if(versions) {
+    return versions.sort((a, b) => semver.gt(b, a) ? 0 : -1)[0]
+  }
+  return null
+}

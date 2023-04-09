@@ -12,6 +12,7 @@
   "dependencies": {
     "@lepton-cli/npm": "^0.1.0",
     "@lepton-cli/utils": "^0.1.0",
+    "path-exists": "^5.0.0",
     "pkg-dir": "^7.0.0"
   },
   "directories": {

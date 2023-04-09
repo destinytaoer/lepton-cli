@@ -35,10 +35,17 @@ async function getNpmSemverVersion(baseVersion, pkgName, registry) {
 function getDefaultRegistry(isOriginal = false) {
     return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
 }
+async function getNpmLatestVersion(pkgName, registry) {
+    let versions = await getNpmVersions(pkgName, registry);
+    if (versions) {
+        return versions.sort((a, b) => semver.gt(b, a) ? 0 : -1)[0];
+    }
+    return null;
+}
 
 // @ts-ignore
 function npmInstall(options) {
     return install(options);
 }
 
-export { getDefaultRegistry, getNpmInfo, getNpmSemverVersion, getNpmVersions, getSemverVersions, npmInstall };
+export { getDefaultRegistry, getNpmInfo, getNpmLatestVersion, getNpmSemverVersion, getNpmVersions, getSemverVersions, npmInstall };

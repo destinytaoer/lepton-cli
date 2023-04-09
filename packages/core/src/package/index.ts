@@ -1,9 +1,9 @@
 import { resolve } from 'path';
 import { createRequire } from 'module';
-
+import { pathExistsSync } from 'path-exists';
 import { packageDirectorySync } from 'pkg-dir';
 import { formatPath, isObject } from '@lepton-cli/utils';
-import { getDefaultRegistry, npmInstall } from '@lepton-cli/npm';
+import { getDefaultRegistry, getNpmLatestVersion, npmInstall } from '@lepton-cli/npm';
 
 const require = createRequire(import.meta.url);
 
@@ -34,13 +34,30 @@ export class Package {
     this.version = options.version;
   }
 
+  async prepare() {
+    if (this.version === 'latest') {
+      this.version = await getNpmLatestVersion(this.name) ?? '';
+    }
+  }
+
+  get cacheFilePath() {
+    return resolve(this.storePath, this.name);
+  }
+
   // 判断当前 package 是否存在
-  exist() {
-    return false
+  async exist() {
+    if (this.storePath) {
+      await this.prepare();
+      console.log(this.cacheFilePath);
+      return pathExistsSync(this.cacheFilePath);
+    } else {
+      return pathExistsSync(this.targetPath);
+    }
   }
 
   // 安装 package
-  install() {
+  async install() {
+    await this.prepare();
     return npmInstall({
       root: this.targetPath,
       storeDir: this.storePath,

@@ -10,8 +10,10 @@ export declare class Package {
     name: string;
     version: string;
     constructor(options: IPackageOptions);
-    exist(): boolean;
-    install(): void;
+    prepare(): Promise<void>;
+    get cacheFilePath(): string;
+    exist(): Promise<boolean>;
+    install(): Promise<any>;
     update(): void;
     getPackageJson(): any;
     getRootFilePath(): string | null;
