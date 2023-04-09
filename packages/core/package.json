@@ -9,6 +9,9 @@
     "dev": "rollup -c -w",
     "build": "rollup -c"
   },
+  "dependencies": {
+    "@lepton-cli/utils": "^0.1.0"
+  },
   "directories": {
     "lib": "lib"
   },

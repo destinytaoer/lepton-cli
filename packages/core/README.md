@@ -1,11 +1,9 @@
 # `core`
 
-> TODO: description
+lepton cli 的核心能力
 
-## Usage
+## 功能
 
-```
-const core = require('core');
-
-// TODO: DEMONSTRATE API
-```
+- 动态执行命令: exec
+- npm 模块类: Package
+- 命令实现类: Command

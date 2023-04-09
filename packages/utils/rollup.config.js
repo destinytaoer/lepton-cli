@@ -7,6 +7,7 @@ export default {
   input: {
     index: 'src/index.ts',
     log: 'src/log/index.ts',
+    function: 'src/function/index.ts',
   },
   output: {
     dir: 'lib',
