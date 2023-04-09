@@ -1,36 +1,15 @@
-import { sep, resolve } from 'path';
+import { resolve } from 'path';
 import { createRequire } from 'module';
 import { packageDirectorySync } from 'pkg-dir';
-import log from 'npmlog';
+import { isObject, formatPath, log } from '@lepton-cli/utils';
+import { npmInstall, getDefaultRegistry } from '@lepton-cli/npm';
 
-log.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
-log.heading = 'lepton';
-
-function isObject(o) {
-    return Object.prototype.toString.call(o) === '[object Object]';
-}
-function isString(o) {
-    return typeof o === 'string';
-}
-
-function formatPath(p) {
-    if (p && isString(p)) {
-        if (sep === '/') {
-            return p;
-        }
-        else {
-            return p.replace(/\\/g, '/');
-        }
-    }
-    return p;
-}
-
-const require = createRequire(import.meta.url);
+const require$1 = createRequire(import.meta.url);
 class Package {
     // 包路径
     targetPath;
     // 缓存路径
-    // storePath: string;
+    storePath;
     // 包名
     name;
     // 版本
@@ -40,18 +19,39 @@ class Package {
             throw new Error('Package 类的参数不能为空');
         }
         this.targetPath = options.targetPath;
-        // this.storePath = options.storePath;
+        this.storePath = options.storePath;
         this.name = options.name;
         this.version = options.version;
     }
     // 判断当前 package 是否存在
     exist() {
+        return false;
     }
     // 安装 package
     install() {
+        return npmInstall({
+            root: this.targetPath,
+            storeDir: this.storePath,
+            registry: getDefaultRegistry(),
+            pkgs: [{
+                    name: this.name,
+                    version: this.version,
+                }],
+        });
     }
     // 更新 package
     update() {
+    }
+    // 获取 package.json 数据
+    getPackageJson() {
+        // 1. 获取 package.json 所在目录 -> pkg-dir
+        const dir = packageDirectorySync({ cwd: this.targetPath });
+        if (dir) {
+            // 2. 读取 package.json
+            const pkgFile = require$1(resolve(dir, 'package.json'));
+            return pkgFile || null;
+        }
+        return null;
     }
     // 获取入口文件路径
     getRootFilePath() {
@@ -59,7 +59,7 @@ class Package {
         const dir = packageDirectorySync({ cwd: this.targetPath });
         if (dir) {
             // 2. 读取 package.json
-            const pkgFile = require(resolve(dir, 'package.json'));
+            const pkgFile = require$1(resolve(dir, 'package.json'));
             // 3. main/lib -> path
             if (pkgFile && pkgFile.main) {
                 // 4. 路径的兼容(macOS/windows)
@@ -68,36 +68,61 @@ class Package {
         }
         return null;
     }
+    // 判断是否是 es module
+    isEsModule() {
+        const pkgFile = this.getPackageJson();
+        return !!(pkgFile && pkgFile.type === 'module');
+    }
 }
 
+const require = createRequire(import.meta.url);
+const CACHE_DIR = 'dependencies';
 const SETTINGS = {
-    init: '@lepton-cli/init',
+    init: '@lepton-cli/cli',
 };
-function exec() {
+async function exec() {
     let targetPath = process.env.CLI_TARGET_PATH;
     const homePath = process.env.CLI_HOME_PATH;
     log.verbose('targetPath', targetPath);
     log.verbose('homePath', homePath);
-    const cmdObj = arguments[arguments.length - 1];
-    const cmdName = cmdObj.name();
-    const packageName = SETTINGS[cmdName];
-    const packageVersion = 'latest';
-    // 生成缓存目录
-    if (!targetPath) {
-        targetPath = '';
-    }
-    const pkg = new Package({
-        targetPath,
-        storePath: '',
-        name: packageName,
-        version: packageVersion,
-    });
-    console.log(pkg.getRootFilePath());
     // 1. targetPath -> modulePath
     // 2. modulePath -> Package(npm 模块)
     // 封装 Package 类
     // 3. Package.isExist/Package.update/Package.install
     // 4. Package.getRootFile 获取入口文件
+    const cmdObj = arguments[arguments.length - 1];
+    const cmdName = cmdObj.name();
+    const packageName = SETTINGS[cmdName];
+    const packageVersion = 'latest';
+    // 生成缓存目录
+    let storePath = '';
+    if (!targetPath) {
+        targetPath = resolve(homePath, CACHE_DIR);
+        storePath = resolve(targetPath, 'node_modules');
+        log.verbose('targetPath', targetPath);
+        log.verbose('storePath', storePath);
+    }
+    const pkg = new Package({
+        targetPath,
+        storePath,
+        name: packageName,
+        version: packageVersion,
+    });
+    if (pkg.exist()) ;
+    else {
+        await pkg.install();
+    }
+    const rootFile = pkg.getRootFilePath();
+    if (rootFile) {
+        if (pkg.isEsModule()) {
+            import(rootFile).then((module) => {
+                module.default(...arguments);
+            });
+        }
+        else {
+            require(rootFile)(...arguments);
+        }
+    }
 }
 
 export { Package, exec };

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import semver from 'semver';
 import urlJoin from 'url-join';
+import install from '/Users/zhuweilong/Documents/projects/lepton-cli/node_modules/npminstall/lib/index.js';
 
 function getNpmInfo(pkgName, registry) {
     if (!pkgName)
@@ -35,4 +36,9 @@ function getDefaultRegistry(isOriginal = false) {
     return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
 }
 
-export { getDefaultRegistry, getNpmInfo, getNpmSemverVersion, getNpmVersions, getSemverVersions };
+// @ts-ignore
+function npmInstall(options) {
+    return install(options);
+}
+
+export { getDefaultRegistry, getNpmInfo, getNpmSemverVersion, getNpmVersions, getSemverVersions, npmInstall };

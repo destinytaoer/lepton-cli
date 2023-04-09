@@ -1,1 +1,1 @@
-export declare function exec(): void;
+export declare function exec(): Promise<void>;

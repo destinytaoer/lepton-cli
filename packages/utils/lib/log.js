@@ -1,5 +1,6 @@
 import log from 'npmlog';
 export { default } from 'npmlog';
 
-log.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
+// log.level = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'info';
+console.log('log level', log.level);
 log.heading = 'lepton';

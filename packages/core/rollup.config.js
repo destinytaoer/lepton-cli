@@ -11,6 +11,6 @@ export default {
     dir: 'lib',
     format: 'es',
   },
-  external: [/node_modules/],
+  external: [/node_modules/, /@lepton-cli/],
   plugins: [nodeResolve(), commonjs(), typescript(), json()],
 };
