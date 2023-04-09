@@ -10,7 +10,8 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "@lepton-cli/utils": "^0.1.0"
+    "@lepton-cli/utils": "^0.1.0",
+    "pkg-dir": "^7.0.0"
   },
   "directories": {
     "lib": "lib"
